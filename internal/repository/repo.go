@@ -1,16 +1,25 @@
 package repository
 
-import "go.mongodb.org/mongo-driver/mongo"
+import (
+	"context"
+	dbmodel "team_collabrative_dashboard/internal/model/db_Model"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
+)
 
 type Repo struct {
-	client *mongo.Client
+	db *mongo.Database
 }
 
 type RepoInterface interface {
+	AdminSignUp(ctx context.Context, data dbmodel.Admin) (primitive.ObjectID, error)
 }
 
-func NewRepo(repo *mongo.Client) RepoInterface {
-	return &Repo{
-		client: repo,
+func NewRepo(repo *mongo.Database) RepoInterface {
+	r := &Repo{
+		db: repo,
 	}
+	r.EnsureIndexes()
+	return r
 }

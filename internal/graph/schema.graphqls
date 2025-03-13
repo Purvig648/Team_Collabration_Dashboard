@@ -1,0 +1,44 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Admin {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+  securityKey: String!
+}
+
+input AdminInput {
+  name: String!
+  email: String!
+  password: String!
+  confirmPassword: String! # Used only for validation, not stored
+  securityKey: String!
+}
+
+type CreateAdminResponse {
+  success: Boolean!
+  error: String!
+  message: String!
+  admin: ID!
+}
+
+type Mutation {
+  AdminSignUp(input: AdminInput!): CreateAdminResponse!
+  AdminSignIn(input: AdminSignIn!): AdminSignInResponse!
+}
+
+input AdminSignIn{
+  email: String!
+  password: String!
+  securityKey: String!
+}
+
+type AdminSignInResponse {
+  success: Boolean!
+  error: String!
+  message: String!
+  token: String! # JWT token for authentication
+}

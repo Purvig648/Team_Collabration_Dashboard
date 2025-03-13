@@ -1,29 +1,35 @@
 package server
 
 import (
-	"errors"
-	"net/http"
+	"log"
+	"team_collabrative_dashboard/internal/graph"
 	"team_collabrative_dashboard/internal/service"
 
+	// Update with actual module path
+
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/labstack/echo/v4"
-	"github.com/sirupsen/logrus"
 )
 
-// Initialize Logrus
-var log = logrus.New()
-
 func StartApp(svc service.ServicedInterface) {
-	server := echo.New()
-	server.GET("/", hello)
+	e := echo.New()
+	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
+		Svc: svc,
+	}}))
 
-	// Start server with Logrus logging
-	if err := server.Start(":8081"); err != nil && !errors.Is(err, http.ErrServerClosed) {
-		log.Error("Failed to start server: ", err)
+	e.POST("/query", func(c echo.Context) error {
+		srv.ServeHTTP(c.Response(), c.Request())
+		return nil
+	})
+
+	e.GET("/", func(c echo.Context) error {
+		playground.Handler("GraphQL Playground", "/query").ServeHTTP(c.Response(), c.Request())
+		return nil
+	})
+
+	log.Println("Server is running on http://localhost:8080")
+	if err := e.Start(":8080"); err != nil {
+		log.Fatal("Failed to start server:", err)
 	}
-}
-
-// Handler function
-func hello(c echo.Context) error {
-	log.Info("Received request on /")
-	return c.String(http.StatusOK, "Hello, World!")
 }
