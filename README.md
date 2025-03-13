@@ -7,7 +7,6 @@ A powerful **Team Collaboration Platform** built with **Golang**, utilizing **Gr
 - ✅ **GraphQL API** – Efficient data fetching and manipulation
 - ✅ **User Authentication** – Secure login/signup with JWT
 - ✅ **Team & Project Management** – Organize projects with teams
-- ✅ **Real-Time Collaboration** – WebSockets for instant updates
 - ✅ **MongoDB Database** – Flexible NoSQL storage
 - ✅ **Logging** – Structured logs using Logrus
 - ✅ **Role-Based Access Control (RBAC)** – Manage user permissions
@@ -20,7 +19,6 @@ A powerful **Team Collaboration Platform** built with **Golang**, utilizing **Gr
 - **MongoDB** – NoSQL document-based database
 - **Logrus** – Structured and scalable logging
 - **JWT Authentication** – Secure user sessions
-- **WebSockets** – Real-time collaboration features
 
 ## ⚙️ Installation & Setup
 
